@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Iframe page</title>
+</head>
+<body>
+    <h1 id="myHeading">Hi Iframe</h1>
+
+    <script>
+        // JavaScript code to change the text of the heading
+       window.addEventListener('message', (event)=>{
+		console.log("hii",event.data, event.origin);
+		const {type} =  event.data;
+		if (event.origin === 'http://localhost:3000') {
+		  // Handle the message from the parent
+		  if (type === 'CALL_FUNCTION') {
+			// Call your function or perform the desired action here
+			childFunction();
+		  }
+		  if ( type === 'getHeight') {
+			console.log(document.body.scrollHeight + 'px');
+			var height = document.body.scrollHeight + 'px';
+			event.source.postMessage(height, event.origin);
+			// window.parent.postMessage("message", height);
+		  }
+		}
+	   });
+	   
+		function childFunction(){
+			console.log("save button clicked",document.body.scrollHeight);
+		}
+    </script>
+</body>
+</html>
